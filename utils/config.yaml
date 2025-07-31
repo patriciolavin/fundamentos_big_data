@@ -1,0 +1,87 @@
+# ==============================================================================
+# ARCHIVO DE CONFIGURACIÓN GLOBAL PARA EL PROYECTO DE ANÁLISIS MIGRATORIO
+# ------------------------------------------------------------------------------
+# Este archivo centraliza todos los parámetros para facilitar la mantenibilidad
+# y la configuración del pipeline sin modificar el código fuente.
+# ==============================================================================
+
+# -- Configuración General del Proyecto --
+project:
+  name: "AnalisisMigratorioSpark"
+  version: "1.0.0"
+  description: "Pipeline de ML para predecir flujos migratorios usando PySpark."
+
+# -- Rutas y Nombres de Archivos --
+# Nombres de las carpetas relativas a la raíz del proyecto.
+# El script main.py las usará para construir las rutas absolutas.
+paths:
+  data_folder: "data"
+  raw_folder: "raw"
+  processed_folder: "processed"
+  bad_data_folder: "bad_data"
+  logs_folder: "logs"
+  models_folder: "models"
+  reports_folder: "reports"
+  templates_folder: "templates"
+  plots_folder: "plots"
+
+data:
+  # Nombre del archivo de datos de entrada.
+  raw_input_file: "migraciones.csv"
+  # Nombre del archivo de salida en formato Parquet.
+  processed_output_file: "migraciones.parquet"
+
+# -- Parámetros de Spark --
+# Configuración para la sesión de Spark.
+spark:
+  app_name: "MigrationPredictionPipeline"
+  driver_memory: "2g"
+  master_config: "local[*]" # Usar todos los cores disponibles localmente.
+  log_level: "WARN" # Reducir la verbosidad de los logs de Spark (ERROR, WARN, INFO).
+  # =================================================================
+  # Aumenta el número de campos que Spark muestra en los logs,
+  # eliminando la advertencia 'Truncated the string'.
+  # =================================================================
+  max_tostring_fields: 100
+
+
+
+# -- Parámetros de Entrenamiento y Evaluación del Modelo --
+training:
+  # Proporción de datos para el conjunto de entrenamiento. El resto será para prueba.
+  train_ratio: 0.8
+
+  # Semilla para todas las operaciones aleatorias (división de datos, etc.)
+  # para garantizar la reproducibilidad de los resultados.
+  random_seed: 42
+
+  # Umbral mínimo de muestras en el conjunto de prueba para una evaluación fiable.
+  # Si el número de muestras de prueba es menor, el pipeline fallará.
+  min_test_samples: 1
+
+
+
+# Definición de la variable objetivo (label).
+# Una migración se considera "exitosa" si:
+# PIB_Destino > pib_multiplier * PIB_Origen Y Tasa_Desempleo_Destino < Tasa_Desempleo_Origen
+feature_engineering:
+    label_creation:
+      pib_multiplier: 2.0
+
+
+# -- Parámetros para la Generación de Reportes --
+reporting:
+  # Información que aparecerá en el encabezado del reporte HTML.
+  report_author: "Patricio LAVIN Pizarro"
+  report_title: "Reporte Técnico de Análisis de Movimientos Migratorios"
+  template_name: "template.html"
+  output_filename_prefix: "reporte_tecnico_migraciones"
+
+  # Nombres de los archivos de texto donde se guardan las salidas de consola.
+  # Esto permite al script de reporting leerlos sin tener que re-ejecutar Spark.
+  console_outputs:
+    spark_schema: "eda_spark_schema.txt"
+    spark_show: "eda_spark_show.txt"
+    spark_describe: "eda_spark_describe.txt"
+    sql_result: "sql_result_origen.txt"
+    model_metrics: "model_evaluation_metrics.txt"
