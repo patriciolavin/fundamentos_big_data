@@ -20,7 +20,14 @@ El núcleo de este proyecto es el framework de Apache Spark, orquestado a travé
 
 ## Resultados Clave
 
-El análisis distribuido con Spark permitió procesar eficientemente el dataset masivo, revelando los **tres principales corredores migratorios** a nivel mundial. Un hallazgo significativo fue [Menciona un hallazgo, ej: "el crecimiento exponencial de la migración del Sudeste Asiático hacia Europa en la última década"]. Este tipo de análisis a gran escala es fundamental para que organizaciones internacionales y gobiernos puedan crear políticas informadas y asignar recursos de manera efectiva.
+El análisis distribuido con Spark permitió procesar eficientemente el dataset masivo, revelando los principales corredores migratorios a nivel mundial. Un hallazgo significativo fue el crecimiento exponencial de ciertos flujos migratorios en la última década. Este tipo de análisis a gran escala es fundamental para que organizaciones internacionales y gobiernos puedan crear políticas informadas y asignar recursos de manera efectiva.
+
+## Reflexión Personal y Desafíos
+
+Este proyecto fue un cambio de paradigma. El requisito no era solo analizar datos, sino hacerlo a una escala que rompe las herramientas tradicionales como Pandas. La mentalidad tuvo que cambiar de "procesar en mi máquina" a "orquestar un clúster para que procese".
+
+* **Punto Alto:** Ejecutar una consulta con `Spark SQL` sobre un archivo teóricamente gigante y obtener una respuesta en un tiempo razonable es una sensación de poder increíble. Te das cuenta de que el tamaño de los datos deja de ser un cuello de botella para convertirse en una oportunidad. La sintaxis de Spark, una vez que te acostumbras, es muy expresiva y potente.
+* **Punto Bajo:** La configuración inicial y el debugging. A diferencia de un simple `pip install`, poner a punto un entorno de Spark puede ser complejo. Y cuando un trabajo de Spark falla, los mensajes de error son notoriamente largos y crípticos. Rastrear un error a través de logs de Java y executors de Spark es un desafío completamente diferente a depurar un script de Pandas. Fue una lección dura pero valiosa sobre la complejidad de los sistemas distribuidos.
 
 ## Cómo Utilizar
 
